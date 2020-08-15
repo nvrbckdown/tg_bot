@@ -9,27 +9,6 @@ bot = telebot.TeleBot(settings.TOKEN)
 exchange = exchanges.Exchange()
 
 
-def currency_checker(message):
-    if message.text:
-        return message.text.startswith('💵💴')
-    else:
-        return False
-
-
-def currency_calculator_checker(message):
-    if message.text:
-        return message.text.startswith('💰')
-    else:
-        return False
-
-
-def back_button_checker(message):
-    if message.text:
-        return message.text.startswith('↩')
-    else:
-        return False
-
-
 @bot.message_handler(commands=['start'])
 def start_command_handler(message):
     """Start command to start bot"""
@@ -37,7 +16,13 @@ def start_command_handler(message):
     bot.send_message(chat_id, "hello world", reply_markup=Keyboard.main_menu_keyboard())
 
 
-@bot.message_handler(func=currency_checker)
+@bot.message_handler(func=bot_engine.back_button_checker)
+def back_button_handler(message):
+    chat_id = message.chat.id
+    bot.send_message(chat_id, "Main menu⬇", reply_markup=Keyboard.main_menu_keyboard())
+
+
+@bot.message_handler(func=bot_engine.currency_checker)
 def get_currency_handler(message):
     """Get currency rate from service and send it to user"""
     chat_id = message.chat.id
@@ -46,7 +31,7 @@ def get_currency_handler(message):
     bot.send_message(chat_id, msg, reply_markup=Keyboard.currency_markup())
 
 
-@bot.message_handler(func=currency_calculator_checker)
+@bot.message_handler(func=bot_engine.currency_calculator_checker)
 def currency_calculator_handler(message):
     chat_id = message.chat.id
     msg = bot.send_message(chat_id, "Select⬇️", reply_markup=Keyboard.currency_select_menu_markup())
@@ -54,7 +39,6 @@ def currency_calculator_handler(message):
 
 
 def select_conversion_type(message):
-    print(message.text)
     if message.text == "🇺🇿 UZS to 💸":
         msg = bot.send_message(message.chat.id, "***How much do you want convert?***🤑", parse_mode='Markdown')
         bot.register_next_step_handler(msg, calculate)
@@ -113,10 +97,11 @@ def reverse_calculation(message):
     bot.send_message(chat_id, text_msg, reply_markup=Keyboard.main_menu_keyboard())
 
 
-@bot.message_handler(func=back_button_checker)
-def back_button_handler(message):
+@bot.message_handler(func=bot_engine.weather_checker)
+def get_waether(message):
     chat_id = message.chat.id
-    bot.send_message(chat_id, "Main menu⬇", reply_markup=Keyboard.main_menu_keyboard())
+    msg_text = bot_engine.get_weather_by_default()
+    bot.send_message(chat_id, text=msg_text, parse_mode='Markdown')
 
 
 if __name__ == "__main__":
