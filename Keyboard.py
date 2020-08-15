@@ -29,12 +29,21 @@ def command_help_board():
     return markup
 
 
-def currency_select_markup():
+def currency_select_menu_markup():
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     markup.add(types.KeyboardButton("🇺🇿 UZS to 💸"))
     markup.add(types.KeyboardButton("🇺🇸 USD"), types.KeyboardButton("🇷🇺 RUB"))
     markup.add(types.KeyboardButton("🇪🇺 EUR"), types.KeyboardButton("🇬🇧 GBP"))
     markup.add(types.KeyboardButton("🇨🇭 CHF"), types.KeyboardButton("🇰🇿 KZT"))
+    return markup
+
+
+def currency_select_markup():
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    markup.add(types.KeyboardButton("🇺🇸 USD"), types.KeyboardButton("🇷🇺 RUB"))
+    markup.add(types.KeyboardButton("🇪🇺 EUR"), types.KeyboardButton("🇬🇧 GBP"))
+    markup.add(types.KeyboardButton("🇨🇭 CHF"), types.KeyboardButton("🇰🇿 KZT"))
+    markup.add(types.KeyboardButton("↩️Back"))
     return markup
 
 

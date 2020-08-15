@@ -34,12 +34,17 @@ class Exchange:
             if self.type_of_currency == get_data["code"]:
                 return get_data
 
-    def __calculation(self):
+    def __conversion_calculator(self):
         """TODO first get type of currency, than get second type to calculate"""
         self.__get_exchange_rates()
         print(self.type_of_currency)
         cb_price = self.__get_exact_data()
         return float(cb_price["cb_price"]) * self.amount_money
+
+    def __reverse_convertion(self):
+        self.__get_exchange_rates()
+        cb_price = self.__get_exact_data()
+        return self.amount_money / float(cb_price["cb_price"])
 
     def return_exchange_rate(self):
         # Return exchange rate as json
@@ -48,7 +53,10 @@ class Exchange:
     def return_calculation(self, amount):
         # return result of calculation
         self.amount_money = amount
-        return str(round(self.__calculation()))
+        return str(round(self.__conversion_calculator()))
+
+    def return_reverse_conversion(self):
+        return str(round(self.__reverse_convertion()))
 
 
 # if __name__ == "__main__":
