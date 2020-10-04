@@ -21,11 +21,3 @@ class Weather:
 
     def return_weather(self):
         return self.__get_weather()
-
-
-if __name__ == "__main__":
-    w = Weather()
-    weather = w.return_weather()
-    print(weather[0])
-    print(weather[1]["temp"])
-    print(weather)

@@ -1,4 +1,5 @@
 import telebot
+
 import settings
 import Keyboard
 import bot_engine
@@ -13,13 +14,19 @@ exchange = exchanges.Exchange()
 def start_command_handler(message):
     """Start command to start bot"""
     chat_id = message.chat.id
-    bot.send_message(chat_id, "hello world", reply_markup=Keyboard.main_menu_keyboard())
+    bot.send_message(chat_id, text="Hello " + message.from_user.username, reply_markup=Keyboard.main_menu_keyboard())
 
 
 @bot.message_handler(func=bot_engine.back_button_checker)
 def back_button_handler(message):
     chat_id = message.chat.id
     bot.send_message(chat_id, "Main menu⬇", reply_markup=Keyboard.main_menu_keyboard())
+
+
+@bot.message_handler(func=bot_engine.feedback_checker)
+def feedback_handler(message):
+    chat_id = message.chat.id
+    bot.send_message(chat_id, "Write to me ⬇️\n\n@Nvrbckdown", parse_mode='Markdown')
 
 
 @bot.message_handler(func=bot_engine.currency_checker)
@@ -101,7 +108,7 @@ def reverse_calculation(message):
 def get_waether(message):
     chat_id = message.chat.id
     msg_text = bot_engine.get_weather_by_default()
-    bot.send_message(chat_id, text=msg_text, parse_mode='Markdown')
+    bot.send_message(chat_id, text=msg_text, reply_markup=Keyboard.main_menu_keyboard(), parse_mode='Markdown')
 
 
 if __name__ == "__main__":

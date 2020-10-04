@@ -34,6 +34,13 @@ def currency_checker(message):
         return False
 
 
+def feedback_checker(message):
+    if message.text:
+        return message.text.startswith('🖋')
+    else:
+        return False
+
+
 def currency_calculator_checker(message):
     if message.text:
         return message.text.startswith('💰')
@@ -62,7 +69,7 @@ def get_weather_by_default():
                "🌡 Temperature: {temperature}°C\n" \
                "💧 Humidity: {humidity}\n" \
                "💨 Wind: {speed}m/s, {deg}°\n" \
-               "Pressure: {press} P***".format(city=w.city, time=datetime.datetime.now(),
+               "🌎 Pressure: {press} P***".format(city=w.city, time=datetime.datetime.now(),
                                                temperature=weather_from_service[1]["temp"],
                                                humidity=weather_from_service[2], speed=weather_from_service[0]["speed"],
                                                deg=weather_from_service[0]["deg"], press=weather_from_service[3]["press"])
