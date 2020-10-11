@@ -1,4 +1,4 @@
-from services import weather
+from services import weather, dictionary
 import datetime
 
 
@@ -60,6 +60,23 @@ def weather_checker(message):
         return message.text.startswith('🌦')
     else:
         return False
+
+
+def def_checker(message):
+    if message.text:
+        return message.text.startswith('📖')
+    else:
+        return False
+
+
+def get_definition(word):
+    def_word = dictionary.DictionaryService(word)
+    coming_data = def_word.get_meaning()
+    msg_text = "💬 Word: {word}\n"\
+                "📇 Definition: {definition}\n"\
+                "✏️ Example: {example}".format(word=coming_data['word'], definition=coming_data['def'],
+                                               example=coming_data['example'])
+    return msg_text
 
 
 def get_weather_by_default():

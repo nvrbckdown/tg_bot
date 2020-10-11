@@ -14,7 +14,7 @@ exchange = exchanges.Exchange()
 def start_command_handler(message):
     """Start command to start bot"""
     chat_id = message.chat.id
-    bot.send_message(chat_id, text="Hello " + message.from_user.username, reply_markup=Keyboard.main_menu_keyboard())
+    bot.send_message(chat_id, text="Hello " + message.from_user.first_name, reply_markup=Keyboard.main_menu_keyboard())
 
 
 @bot.message_handler(func=bot_engine.back_button_checker)
@@ -109,6 +109,19 @@ def get_waether(message):
     chat_id = message.chat.id
     msg_text = bot_engine.get_weather_by_default()
     bot.send_message(chat_id, text=msg_text, reply_markup=Keyboard.main_menu_keyboard(), parse_mode='Markdown')
+
+
+@bot.message_handler(func=bot_engine.def_checker)
+def get_definition(message):
+    chat_id = message.chat.id
+    msg = bot.send_message(chat_id, text="Which word?")
+    bot.register_next_step_handler(msg, send_definition)
+
+
+def send_definition(message):
+    chat_id = message.chat.id
+    msg_text = bot_engine.get_definition(message.text)
+    bot.send_message(chat_id, msg_text)
 
 
 if __name__ == "__main__":

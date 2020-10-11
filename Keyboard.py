@@ -15,9 +15,11 @@ def main_menu_keyboard():
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     btn_get_exchanges = types.KeyboardButton("💵💴Exchange Rates💶💷")
     btn_get_weather = types.KeyboardButton("🌦 Weather")
+    btn_get_def = types.KeyboardButton("📖 Get Definition")
     feed_back_btn = types.KeyboardButton("🖋Feedback")
     markup.add(btn_get_exchanges)
     markup.add(btn_get_weather)
+    markup.add(btn_get_def)
     markup.add(feed_back_btn)
     return markup
 
