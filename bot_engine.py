@@ -72,11 +72,14 @@ def def_checker(message):
 def get_definition(word):
     def_word = dictionary.DictionaryService(word)
     coming_data = def_word.get_meaning()
-    msg_text = "💬 Word: {word}\n"\
-                "📇 Definition: {definition}\n"\
-                "✏️ Example: {example}".format(word=coming_data['word'], definition=coming_data['def'],
-                                               example=coming_data['example'])
-    return msg_text
+    if coming_data != "Error":
+        msg_text = "💬 Word: {word}\n"\
+                    "📇 Definition: {definition}\n"\
+                    "✏ Example: {example}".format(word=coming_data['word'], definition=coming_data['def'],
+                                                   example=coming_data['example'])
+        return msg_text
+    else:
+        return "Something went wrong, please check word!"
 
 
 def get_weather_by_default():
@@ -86,7 +89,7 @@ def get_weather_by_default():
                "🌡 Temperature: {temperature}°C\n" \
                "💧 Humidity: {humidity}\n" \
                "💨 Wind: {speed}m/s, {deg}°\n" \
-               "🌎 Pressure: {press} P***".format(city=w.city, time=datetime.datetime.now(),
+               "🌎 Pressure: {press} P***".format(city=w.city, time=datetime.date.today(),
                                                temperature=weather_from_service[1]["temp"],
                                                humidity=weather_from_service[2], speed=weather_from_service[0]["speed"],
                                                deg=weather_from_service[0]["deg"], press=weather_from_service[3]["press"])

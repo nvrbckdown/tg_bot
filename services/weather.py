@@ -1,6 +1,7 @@
 import pyowm
+import settings
 
-owm = pyowm.OWM("daeff41c7c57750a4dedf5fb0d4c3de2")
+owm = pyowm.OWM(settings.OWM_URL)
 
 
 class Weather:

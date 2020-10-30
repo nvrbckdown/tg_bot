@@ -14,24 +14,31 @@ exchange = exchanges.Exchange()
 def start_command_handler(message):
     """Start command to start bot"""
     chat_id = message.chat.id
-    bot.send_message(chat_id, text="Hello " + message.from_user.first_name, reply_markup=Keyboard.main_menu_keyboard())
+    try:
+        bot.send_message(chat_id, text="Hello 👋🏻***" + message.from_user.username + "***", parse_mode="Markdown",
+                         reply_markup=Keyboard.main_menu_keyboard())
+    except Exception as e:
+        bot.send_message(chat_id, text="Hello 👋🏻***" + message.from_user.first_name + "***", parse_mode="Markdown",
+                         reply_markup=Keyboard.main_menu_keyboard())
 
 
 @bot.message_handler(func=bot_engine.back_button_checker)
 def back_button_handler(message):
+    """Back button, returns to main menu"""
     chat_id = message.chat.id
     bot.send_message(chat_id, "Main menu⬇", reply_markup=Keyboard.main_menu_keyboard())
 
 
 @bot.message_handler(func=bot_engine.feedback_checker)
 def feedback_handler(message):
+    """Feedback button, sends message "Write me!" """
     chat_id = message.chat.id
     bot.send_message(chat_id, "Write to me ⬇️\n\n@Nvrbckdown", parse_mode='Markdown')
 
 
 @bot.message_handler(func=bot_engine.currency_checker)
 def get_currency_handler(message):
-    """Get currency rate from service and send it to user"""
+    """Currency handler, handles request to get currency rate"""
     chat_id = message.chat.id
     currency_list = exchange.return_exchange_rate()
     msg = bot_engine.parse_coming_data(currency_list)
@@ -40,6 +47,7 @@ def get_currency_handler(message):
 
 @bot.message_handler(func=bot_engine.currency_calculator_checker)
 def currency_calculator_handler(message):
+    """Currency calculator handler, handles request to calculation of differences or conversion"""
     chat_id = message.chat.id
     msg = bot.send_message(chat_id, "Select⬇️", reply_markup=Keyboard.currency_select_menu_markup())
     bot.register_next_step_handler(msg, select_conversion_type)
@@ -105,7 +113,8 @@ def reverse_calculation(message):
 
 
 @bot.message_handler(func=bot_engine.weather_checker)
-def get_waether(message):
+def get_weather(message):
+    """Weather handler, handles request to weather service"""
     chat_id = message.chat.id
     msg_text = bot_engine.get_weather_by_default()
     bot.send_message(chat_id, text=msg_text, reply_markup=Keyboard.main_menu_keyboard(), parse_mode='Markdown')
@@ -113,6 +122,7 @@ def get_waether(message):
 
 @bot.message_handler(func=bot_engine.def_checker)
 def get_definition(message):
+    """Word Definition handler, handles request to definition service"""
     chat_id = message.chat.id
     msg = bot.send_message(chat_id, text="Which word?")
     bot.register_next_step_handler(msg, send_definition)
@@ -121,7 +131,11 @@ def get_definition(message):
 def send_definition(message):
     chat_id = message.chat.id
     msg_text = bot_engine.get_definition(message.text)
-    bot.send_message(chat_id, msg_text)
+    if msg_text != "Something went wrong, please check word!":
+        bot.send_message(chat_id, msg_text, parse_mode="HTML")
+    else:
+        bot.send_message(chat_id, msg_text)
+        get_definition(message)
 
 
 if __name__ == "__main__":

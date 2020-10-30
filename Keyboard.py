@@ -18,8 +18,7 @@ def main_menu_keyboard():
     btn_get_def = types.KeyboardButton("📖 Get Definition")
     feed_back_btn = types.KeyboardButton("🖋Feedback")
     markup.add(btn_get_exchanges)
-    markup.add(btn_get_weather)
-    markup.add(btn_get_def)
+    markup.add(btn_get_weather, btn_get_def)
     markup.add(feed_back_btn)
     return markup
 
